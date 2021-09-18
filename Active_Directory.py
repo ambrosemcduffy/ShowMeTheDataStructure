@@ -21,6 +21,29 @@ class Group(object):
         return self.name
 
 
+
+def is_user_in_group(user, group):
+    """
+    Return True if user is in the group, False otherwise.
+
+    Args:
+      user(str): user name/id
+      group(class:Group): group to check user membership against
+    """
+    if user is None or group is None:
+        return None
+
+    if user == " " or group == " ":
+        print("--empty string--")
+        return " "
+
+    if user in group.users:
+        return True
+    else:
+        for i in range(len(group.groups)):
+            output = is_user_in_group(user, group.groups[i])
+            return output
+
 parent = Group("parent")
 child = Group("child")
 sub_child = Group("subchild")
@@ -32,20 +55,14 @@ child.add_group(sub_child)
 parent.add_group(child)
 
 
-
-def is_user_in_group(user, group):
-    """
-    Return True if user is in the group, False otherwise.
-
-    Args:
-      user(str): user name/id
-      group(class:Group): group to check user membership against
-    """
-    if user in group.users:
-        return True
-    else:
-        for i in range(len(group.groups)):
-            output = is_user_in_group(user, group.groups[i])
-            return output
-
+# Unit Test 1
+# Expecting True
 print(is_user_in_group(sub_child_user, parent))
+
+# Unit Test 2
+# Expecting None
+print(is_user_in_group(None, None))
+
+# Unit Test 3
+# Expecting print message of empty string
+print(is_user_in_group(" ", " "))

@@ -40,48 +40,14 @@ class Node:
 		return self.right != None
 
 
-class Container:
-	def __init__(self, value):
-		self.value = value
-		self.next = None
-
-class Queue:
-	def __init__(self):
-		self.head = None
-		self.tail = None
-		self.n_entries = 0
-	
-	def enq(self, value):
-		new_node = container(value)
-		if self.head is None:
-			self.head = new_node
-			self.tail = self.head
-			self.n_entries += 1
-			return
-		self.tail.next = new_node
-		self.tail = self.tail.next
-		self.n_entries += 1
-	
-	def deq(self):
-		node_value = self.head
-		self.head = self.head.next
-		self.n_entries -= 1
-		return node_value.value
-	
-	def __len__(self):
-		return self.n_entries
-
-
 def get_frequency(message):
-	""" This function gets the frequency
-	of character per message
-	
+	""" This function gets the frequency of character per message
 	Args:
 		message (str): string message
 	Returns:
 		dict: frequency dictionary.
-		
 	"""
+
 	freq_dict = {}
 	cnt = 1
 	for char in message:
@@ -99,7 +65,8 @@ def sort_list(node_list):
 	Returns:
 	    list: sorted node list    
 	"""
-
+	if node_list is None:
+		return None
 	node_list.sort(key=operator.attrgetter('freq'))
 	return node_list
 
@@ -109,8 +76,9 @@ def get_parent_node(node_list):
 	Args:
 	    node_list: list of nodes
 	Returns:
-	    class: node of left, and right child
+	    class: parent node of left, and right child
 	"""
+
 	pop_values = []
 	for i in range(2):
 		pop_values.append(node_list.pop(0))
@@ -131,6 +99,14 @@ def get_parent_node(node_list):
 
 
 def get_append_node_list(message):
+	""" Gets frequency of characters to Node in message and appends to list
+	Args:
+	    message (str): string message
+	Returns:
+	    list: list of node values with frequency and character
+	"""
+	if message is None:
+		return None
 	freq_dict = get_frequency(message)
 	# Appending the key, and values to node, and appending node to list
 	node_list = []
@@ -141,7 +117,7 @@ def get_append_node_list(message):
 
 
 def getHuffTree(message):
-	""" Creates a Huffman Tree
+	""" Creates a Huffman Tree recursively
 	Args:
 	    node_list (list): list of sorted nodes
 	Returns:
@@ -151,6 +127,8 @@ def getHuffTree(message):
 	node_list = get_append_node_list(message)
 	sorted_node_list = sort_list(node_list)
 	def MakeHuffmanTree(node_list):
+		if node_list is None:
+			return None
 		if len(node_list) == 1:
 			return node_list
 		new_node = get_parent_node(node_list)
@@ -158,39 +136,64 @@ def getHuffTree(message):
 		node_list = sort_list(node_list)
 		MakeHuffmanTree(node_list)
 	MakeHuffmanTree(sorted_node_list)
-	return node_list[0]
+	if node_list is None:
+		return None
+	else:
+		return node_list[0]
 
 
 
 def dfs(node, char):
- 	visit_order = []
- 	bit = ""
- 	def traverse(node, bit=""):
- 		if node != None:
- 			if node.char == char:
- 				visit_order.append(bit)
- 			traverse(node.get_left_child(),bit+ "0")
- 			traverse(node.get_right_child(), bit + "1")
- 	traverse(node)
- 	return visit_order[0]
+	""" Traverses tree and gets encoded value of character
+	Args:
+	    node (class): class node containing, char, freq, left, and right child
+	    char (str): string character
+	Returns:
+	    class: parent root node
+	"""
+	visit_order = []
+	bit = ""
+	def traverse(node, bit=""):
+		if node != None:
+			if node.char == char:
+				visit_order.append(bit)
+			traverse(node.get_left_child(),bit+ "0")
+			traverse(node.get_right_child(), bit + "1")
+	traverse(node)
+	return visit_order[0]
 
 
 def encode(message):
+	""" encodes messages to bits
+	Args:
+	    message (str): string message
+	Returns:
+	    str: bit string message
+	"""
 	# Getting parent of node tree
 	parent_node = getHuffTree(message)
 	
 	# Getting encoding of message
 	encoding = ""
+	if message is None:
+		return None
 	for char in message:
-
 		encoding += dfs(parent_node, char)
 	return encoding
 
 
 def decoder(encoded_message, message):
+	""" Decodes our encoded bit message
+	Args:
+	    encoded_message (str): string encoded message
+	    message (str): string message
+	Returns:
+	    str: string decode message
+	"""
 	# Getting parent of node tree
 	parent_node = getHuffTree(message)
-	
+	if message is None:
+		return None
 	node = parent_node
 	decoded_string = ""
 	if parent_node.get_left_child() is None or parent_node.get_left_child() is None:
@@ -198,7 +201,7 @@ def decoder(encoded_message, message):
 	            decoded_string = decoded_string + parent_node.char
 	else:
 	    for bit in encoded_message:
-	        if bit is '0':
+	        if bit == '0':
 	            node = node.get_left_child()
 	        else:
 	            node = node.get_right_child()
@@ -208,14 +211,40 @@ def decoder(encoded_message, message):
 	            node = parent_node
 	return decoded_string
 
-# Getting the Frequency of message
-message = "Coding will forever be fun"
+# Unit test 1
+# Expecting encoded and decoded message
+message = "It's possible to commit no mistake and still lose."
+encoded_message = encode(message)
+decoded_message = decoder(encoded_message, message)
 
-print(encode(message))
-print(decoder(encode(message), message))
+print("encoded message: {}".format(encoded_message))
+print("decoded message: {}\n".format(decoded_message))
 
-message = "Star Trek is the best series ever"
+# Unit test 2
+# Expecting None
+message = None
+encoded_message = encode(message)
+decoded_message = decoder(encoded_message, message)
 
-print(encode(message))
-print(decoder("10100110110101011111101100110010111111010110011111011100000111110010010011011111000001101010010011100010000011"
-, message))
+print("encoded message: {}".format(encoded_message))
+print("decoded message: {}\n".format(decoded_message))
+
+# Unit test 3
+# Expecting empty string
+message = " "
+encoded_message = encode(message)
+decoded_message = decoder(encoded_message, message)
+
+print("encoded message: {}".format(encoded_message))
+print("decoded message: {}\n".format(decoded_message))
+
+# Unit test 4
+# Expecting encoded and decoded message
+
+message = "Coding is Fun."
+encoded_message = encode(message)
+decoded_message = decoder(encoded_message, message)
+
+
+print("encoded message: {}".format(encoded_message))
+print("decoded message: {}\n".format(decoded_message))

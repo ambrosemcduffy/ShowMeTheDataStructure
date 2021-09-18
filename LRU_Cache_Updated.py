@@ -77,6 +77,14 @@ print(cache.get(9))
 
 cache.put(5, 5)
 cache.put(6, 6)
+
+# Unit Test 1
 print(cache.get(3))
-#print(cache.head.value)
-#print(cache.size())
+
+# Unit Test 2
+# Expecting -1
+print(cache.get(" "))
+
+# Unit Test 3
+# Expecting -1
+print(cache.get(None))

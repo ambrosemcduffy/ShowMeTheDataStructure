@@ -57,10 +57,20 @@ class BlockChain(object):
 
 
 bc = BlockChain()
+
+# Unit Test 1
+# blockchain data should show $500 dollars
 bc.append("$500")
-bc.append("$1500")
-bc.append("$2500")
-bc.append("$7500")
-bc.append("$100")
-bc.append("$30")
+
+# Unit Test 2
+# blockchain data should show nothing dollars
+
+bc.append(" ")
+
+# Unit Test 3
+# blockchain data should show None dollars
+
+bc.append(None)
+
+# Print the block-chain
 print(bc)
