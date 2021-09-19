@@ -8,8 +8,10 @@ class LinkedList:
         self.head = None
         self.tail = None
         self.n_entries = 0
+
     def append(self,value):
         new_node = Node(value)
+
         if self.head is None:
             self.head = new_node
             self.tail = self.head
@@ -38,12 +40,14 @@ def linkedlistToArray(linkedlist):
         list: sorted array of values
     """
     if linkedlist is None:
-    	return None
+        return None
     elem_l = []
     node = linkedlist.head
+
     while node:
         elem_l.append(node.value)
         node = node.next
+        
     return sorted(set(elem_l))
 
 
@@ -55,10 +59,12 @@ def append_to_linked_list(list_):
     	class: linked list class Node
     """
     if list_ is None:
-    	return None
+        return None
+
     linked_list = LinkedList()
     for element in list_:
         linked_list.append(element)
+
     return linked_list
 
 
@@ -72,6 +78,10 @@ def intersect(element_1, element_2):
     """
     if element_1 is None or element_2 is None:
     	return None
+    	
+    elif type(element_1) != list or type(element_2) != list:
+    	print("Not list element")
+    	return None
     linked_list_1 = append_to_linked_list(element_1)
     linked_list_2 = append_to_linked_list(element_2)
     
@@ -80,7 +90,7 @@ def intersect(element_1, element_2):
     intersecting_linked_list = LinkedList()
 
     for i in array_1:
-        for j in array_1:
+        for j in array_2:
             if i == j:
                 intersecting_linked_list.append(i)
     
@@ -96,10 +106,10 @@ def union(element_1, element_2):
     	class: class Node with values
     """
     if element_1 is None or element_2 is None:
-    	return None
+        return None
     elif type(element_1) != list or type(element_2) != list:
-    	print("Not list")
-    	return None
+        return None
+        
     linked_list_1 = append_to_linked_list(element_1)
     linked_list_2 = append_to_linked_list(element_2)
     
@@ -108,56 +118,67 @@ def union(element_1, element_2):
     
     union_linked_list = LinkedList()
     combined_list = sorted(set(array_1 + array_2))
-    
+
     for element in combined_list:
     	union_linked_list.append(element)
-    	return union_linked_list
+    	
+    return union_linked_list
 
 
 def printOutLinkedList(linked_list):
     if linked_list is None:
-    	print("\nNoneType values input elements\n")
-    	return None
+        print("\nNoneType values input elements\n")
+        return None
     node = linked_list.head
     print("\n")
     while node:
         if node is None:
-        	break
+            break
         print("-{}->".format(node.value), end='')
         node = node.next
+
+def printOut_Unit_test(element_1, element_2, version):
+    print("Unit Test {}:".format(version))
+    print("---------------------------")
+
+    intersect_ll = intersect(element_1, element_2)
+    union_ll = union(element_1, element_2)
+
+    printOutLinkedList(intersect_ll)
+    printOutLinkedList(union_ll)
+
+    print("\n---------------------------")
 
 
 # Unit Test 1
 element_1 = [3,2,4,35,6,65,6,4,3,21]
 element_2 = [6,32,4,9,6,1,11,21,1]
-
-intersect_ll = intersect(element_1, element_2)
-union_ll = union(element_1, element_2)
-
-#printOutLinkedList(intersect_ll)
-#printOutLinkedList(union_ll)
-
+printOut_Unit_test(element_1, element_2, 1)
 
 
 # Unit Test 2
-element_1 = None
-element_2 = None
-
-intersect_ll = intersect(element_1, element_2)
-union_ll = union(element_1, element_2)
-
-#printOutLinkedList(intersect_ll)
-#printOutLinkedList(union_ll)
+# Expecting NoneType
+printOut_Unit_test(None, None, 2)
 
 
 
+# Unit Test 3
+# Expecting NoneType
+printOut_Unit_test("ABCDEFG", "ABCDEFG", 3)
 
-# Unit Test 2
-element_1 = "A"
-element_2 = "B"
+# Unit Test 4
+# Expecting Nothing for intersection and union value list for union
 
-intersect_ll = intersect(element_1, element_2)
-union_ll = union(element_1, element_2)
+element_1 = [1, 2, 3, 4,5]
+element_2 = [6, 7, 8, 9, 10]
 
-printOutLinkedList(intersect_ll)
-printOutLinkedList(union_ll)
+printOut_Unit_test(element_1, element_2, 4)
+
+
+# Unit Test 5
+# Expecting 100 for intersect, and union all values
+
+element_1 = [100]
+element_2 = [100, 200, 300, 350, 450]
+
+printOut_Unit_test(element_1, element_2, 5)
