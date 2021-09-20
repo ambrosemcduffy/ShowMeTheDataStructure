@@ -15,6 +15,9 @@ class LRU_Cache(object):
         self.n_entries = 0
     
     def put(self, key, value):
+        if self.capacity == 0 or self.capacity == -1:
+            return None
+
         if self.size() >= self.capacity:
             print("Over Capacity")
             self.pop()
@@ -62,7 +65,8 @@ class LRU_Cache(object):
         
 
 
-cache = LRU_Cache(5)
+print("\n______Unit Test 1 _______")
+cache = LRU_Cache(1)
 cache.put(1, 1)
 cache.put(2, 2)
 cache.put(3, 3)
@@ -79,12 +83,34 @@ cache.put(5, 5)
 cache.put(6, 6)
 
 # Unit Test 1
-print(cache.get(3))
+# Should output 6
+print(cache.get(6))
+print("\n________________\n")
 
+
+
+print("\n______Unit Test 2 _______")
 # Unit Test 2
-# Expecting -1
-print(cache.get(" "))
+# Should output -1
+cache = LRU_Cache(0)
+cache.put(5, 5)
+print(cache.get(5))
+print("\n_______________")
 
-# Unit Test 3
-# Expecting -1
-print(cache.get(None))
+
+print("\n______Unit Test 3 _______")
+# Unit Test 2
+# Should output every value
+cache = LRU_Cache(10)
+cache.put(5, 5)
+cache.put(1, 1)
+cache.put(3, 3)
+cache.put(7, 7)
+cache.put(10, 10)
+
+print(cache.get(5))
+print(cache.get(1))
+print(cache.get(3))
+print(cache.get(7))
+print(cache.get(10))
+print("\n_______________")

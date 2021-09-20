@@ -30,11 +30,15 @@ class BlockChain(object):
     
     
     def append(self, value):
+        if type(value) != int:
+            return None
+        
         if self.head is None:
-            self.head = Block(self.get_timestamp(), value, 0)
+            self.head = Block(self.get_timestamp(), "$"+str(value), 0)
             self.tail = self.head
             return None
-        self.tail.next = Block(self.get_timestamp(), value, self.head.hash)
+        
+        self.tail.next = Block(self.get_timestamp(), "$"+str(value), self.head.hash)
         self.tail.next.previous = self.tail
         self.tail = self.tail.next
         return
@@ -60,17 +64,19 @@ bc = BlockChain()
 
 # Unit Test 1
 # blockchain data should show $500 dollars
-bc.append("$500")
+bc.append(500)
 
 # Unit Test 2
-# blockchain data should show nothing dollars
-
+# blockchain data should return None
 bc.append(" ")
 
 # Unit Test 3
-# blockchain data should show None dollars
-
+# blockchain data should return None
 bc.append(None)
+
+# Unit Test 4
+# blockchain data should return None
+bc.append("ambrose")
 
 # Print the block-chain
 print(bc)
