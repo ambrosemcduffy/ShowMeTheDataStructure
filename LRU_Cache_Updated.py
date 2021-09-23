@@ -114,3 +114,9 @@ print(cache.get(3))
 print(cache.get(7))
 print(cache.get(10))
 print("\n_______________")
+
+print("Unit Test Missing")
+cache = LRU_Cache(-1)
+cache.put(5, 5)
+print(cache.get(5))
+
