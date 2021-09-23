@@ -4,10 +4,10 @@ for a given suffix path
 """
 import os
 
-
 path = "./"
 
-def find_files(suffix,  path) -> list:
+
+def find_files(suffix, path) -> list:
     """ Parse folder structure and find files
     Args:
         suffix (str): string of suffix
@@ -15,7 +15,7 @@ def find_files(suffix,  path) -> list:
     Returns:
         list: list of string file paths
     """
-    
+
     if suffix == " " or path == " ":
         print("\n---No path input---")
         return " "
@@ -42,16 +42,17 @@ def find_files(suffix,  path) -> list:
             if new_path.endswith(suffix):
                 file_path = new_path
                 file_paths.append(file_path)
-            
+
             if os.path.isdir(new_path):
-                parse_folder(index-1, suffix, new_path)
-    
+                parse_folder(index - 1, suffix, new_path)
+
     parse_folder(index_n, suffix, path)
-    
+
     if len(file_paths) == 0:
         print("File paths does not exist..")
-    
+
     return file_paths
+
 
 # Unit Test 1
 # Expecting file path .h
