@@ -1,5 +1,5 @@
 LRU_CACHE:
-- DataStructure - Que linked-list, and Dictorary chosen for constant time
+- DataStructure - Queue linked-list, and Dictionary chosen for constant time
 
 - Time Complexity - O(1)
 - Space Complexity - (n)
@@ -15,7 +15,7 @@ Huffman Coding:
 - Time Complexity - O(n^2)
 
 Recursion File Search:
-- Data Structure - recusions cleaner look
+- Data Structure - recursions cleaner look
 - Time complexity - Worse case O(logn)
 - Space Complexity - O(n^2)
 
