@@ -1,5 +1,7 @@
+This project consists of using Data Structures for everyday programming Challenges.
+
 LRU_CACHE:
-- DataStructure - Queue linked-list, and Dictionary chosen for constant time
+- DataStructure - Queue linked-list & hashMap chosen for constant time
 
 - Time Complexity - O(1)
 - Space Complexity - (n)
